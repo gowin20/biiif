@@ -54,7 +54,7 @@ export class Directory {
 
   public async read(): Promise<void> {
     // canvases are directories starting with an underscore
-    const canvasesPattern: string = this.directoryFilePath + "/_*";
+    const canvasesPattern: string = join(this.directoryFilePath, "/_*");
 
     const canvases: string[] = await glob(canvasesPattern, {
       ignore: ["**/*.yml", "**/thumb.*", "**/!*"],
@@ -74,7 +74,7 @@ export class Directory {
 
     // directories not starting with an underscore
     // these can be child manifests or child collections
-    const directoriesPattern: string = this.directoryFilePath + "/*";
+    const directoriesPattern: string = join(this.directoryFilePath, "/*");
 
     const directories: string[] = await glob(directoriesPattern, {
       ignore: [
@@ -120,7 +120,7 @@ export class Directory {
     // create a canvas for each.
     if (!this.directories.length && !canvases.length) {
       const paintableFiles: string[] = await glob(
-        this.directoryFilePath + "/*.*",
+        join(this.directoryFilePath, "/*.*"),
         {
           ignore: ["**/*.yml", "**/thumb.*", "**/index.json"],
         }
